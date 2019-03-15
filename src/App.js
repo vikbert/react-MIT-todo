@@ -1,20 +1,22 @@
-import React, {Component} from 'react';
-import './App.css';
-import lodashSortBy from 'lodash/sortBy';
-import lodashFilter from 'lodash/filter';
-import FilterConfig from './components/FilterConfig';
-import TodoForm from './components/TodoForm';
-import TodoItem from './components/TodoItem';
-import TodoControl from './components/TodoControl';
-import TodoCounter from './components/TodoCounter';
+import React, { Component } from "react";
+import "./App.css";
+import lodashSortBy from "lodash/sortBy";
+import lodashFilter from "lodash/filter";
+import FilterConfig from "./components/FilterConfig";
+import TodoForm from "./components/TodoForm";
+import TodoItem from "./components/TodoItem";
+import TodoControl from "./components/TodoControl";
+import TodoCounter from "./components/TodoCounter";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: window.todoStorage.fetch() || [],
-      visibility: FilterConfig.VISIBILITY_ALL || "all",
+      visibility: FilterConfig.VISIBILITY_ALL || "all"
     };
+
+    this.replaceTodo = this.replaceTodo.bind(this);
   }
 
   componentDidUpdate() {
@@ -23,7 +25,7 @@ class App extends Component {
 
   addTodo(todoObj) {
     this.setState({
-      todos: [todoObj, ...this.state.todos],
+      todos: [todoObj, ...this.state.todos]
     });
   }
 
@@ -34,20 +36,20 @@ class App extends Component {
     todos[index] = newTodo;
 
     this.setState({
-      todos: todos,
+      todos: todos
     });
   }
 
   removeCompletedTodos() {
     const onlyActiveTodos = this.sortStarredTodosFirst(this.getActiveTodos());
     this.setState({
-      todos: onlyActiveTodos,
+      todos: onlyActiveTodos
     });
   }
 
   updateVisibility(newVisibility) {
     this.setState({
-      visibility: newVisibility,
+      visibility: newVisibility
     });
   }
 
@@ -63,54 +65,82 @@ class App extends Component {
   }
 
   getAllTodos() {
-    return lodashSortBy(this.state.todos, ['completed', 'starred'], ['asc', 'desc']);
+    return lodashSortBy(
+      this.state.todos,
+      ["completed", "starred"],
+      ["asc", "desc"]
+    );
   }
 
   getCompletedTodos() {
-    return lodashFilter(this.state.todos, ['completed', true]);
+    return lodashFilter(this.state.todos, ["completed", true]);
   }
 
   getActiveTodos() {
-    const activeTodos = lodashFilter(this.state.todos, ['completed', false]);
+    const activeTodos = lodashFilter(this.state.todos, ["completed", false]);
 
-    return lodashSortBy(activeTodos, ['starred'], ['desc']);
+    return lodashSortBy(activeTodos, ["starred"], ["desc"]);
+  }
+
+  counterActiveStarred() {
+    const activeTodos = this.getActiveTodos();
+
+    return lodashFilter(activeTodos, ['starred', 1]).length;
   }
 
   sortStarredTodosFirst(todos) {
-    return lodashSortBy(todos, ['starred'], ['desc']);
+    return lodashSortBy(todos, ["starred"], ["desc"]);
   }
 
   render() {
-    return <div id="todo-demo">
-      <a href="https://github.com/vikbert/react-MIT-todo" target="_blank" rel="noopener noreferrer">
-        <img className="avatar"
-             src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
-             alt="avatar"/>
-      </a>
-      <section className="todoapp">
-        <header className="header">
-          <h1>M I T Todo</h1>
-          {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && <TodoForm addTodoHandler={this.addTodo.bind(this)}></TodoForm> }
-        </header>
+    return (
+      <div id="todo-demo">
+        <a
+          href="https://github.com/vikbert/react-MIT-todo"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            className="avatar"
+            src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
+            alt="avatar"
+          />
+        </a>
+        <section className="todoapp">
+          <header className="header">
+            <h1>M I T Todo</h1>
+            {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
+              <TodoForm addTodoHandler={this.addTodo.bind(this)} />
+            )}
+          </header>
 
-        <section className="main">
-          <ul className="todo-list">
-            {this.getFilteredTodos().map((todo, index) => {
-              return (<TodoItem key={todo.id} index={index} todo={todo}
-                                replaceTodo={this.replaceTodo.bind(this)}/>);
-            })}
-          </ul>
+          <section className="main">
+            <ul className="todo-list">
+              {this.getFilteredTodos().map((todo, index) => {
+                return (
+                  <TodoItem
+                    key={todo.id}
+                    index={index}
+                    todo={todo}
+                    counterActiveStarred={this.counterActiveStarred.bind(this)}
+                    replaceTodo={this.replaceTodo}
+                  />
+                );
+              })}
+            </ul>
+          </section>
+          <footer className="footer">
+            <TodoCounter counterActive={this.getActiveTodos().length} />
+            <TodoControl
+              visibility={this.state.visibility}
+              counterCompleted={this.getCompletedTodos().length}
+              removeCompletedTodos={this.removeCompletedTodos.bind(this)}
+              updateVisibility={this.updateVisibility.bind(this)}
+            />
+          </footer>
         </section>
-        <footer className="footer">
-          <TodoCounter counterActive={this.getActiveTodos().length}></TodoCounter>
-          <TodoControl visibility={this.state.visibility}
-                       counterCompleted={this.getCompletedTodos().length}
-                       removeCompletedTodos={this.removeCompletedTodos.bind(this)}
-                       updateVisibility={this.updateVisibility.bind(this)}>
-          </TodoControl>
-        </footer>
-      </section>
-    </div>;
+      </div>
+    );
   }
 }
 

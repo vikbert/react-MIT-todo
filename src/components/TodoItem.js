@@ -1,18 +1,18 @@
 import React, {Component} from "react";
+import TodoStarIcon from './TodoStarIcon'
 
 class TodoItem extends Component {
   index;
   todo;
+  counterActiveStarred;
 
   constructor(props) {
     super(props);
     this.state = {
       completed: this.props.todo.completed,
     };
-  }
 
-  cloneObject(original) {
-    return JSON.parse(JSON.stringify(original));
+    this.replaceTodo = this.replaceTodo.bind(this);
   }
 
   onChange(event) {
@@ -21,10 +21,14 @@ class TodoItem extends Component {
       completed: isCompleted,
     });
 
-    const newTodo = this.cloneObject(this.props.todo);
+    const newTodo = JSON.parse(JSON.stringify(this.props.todo));
     newTodo.completed = isCompleted;
 
     this.props.replaceTodo(this.props.todo, newTodo);
+  }
+
+  replaceTodo(oldTodo, newTodo) {
+    this.props.replaceTodo(oldTodo, newTodo);
   }
 
   render() {
@@ -36,6 +40,9 @@ class TodoItem extends Component {
                  defaultChecked={this.state.completed}
           />
           <label>{this.props.todo.title}</label>
+          <TodoStarIcon todo={this.props.todo}
+                        replaceTodo={this.replaceTodo}
+          />
         </div>
         <input className="edit" type="text"/>
       </li>
