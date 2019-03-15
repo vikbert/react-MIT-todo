@@ -65,27 +65,36 @@ class App extends Component {
   }
 
   getAllTodos() {
-    return lodashSortBy(
-      this.state.todos,
-      ["completed", "starred"],
-      ["asc", "desc"]
-    );
+    const activeStarred = this.getActiveStarred();
+    const unstarred = this.getUnstarred();
+
+    return activeStarred.concat(unstarred);
   }
 
   getCompletedTodos() {
-    return lodashFilter(this.state.todos, ["completed", true]);
+    const filtered = lodashFilter(this.state.todos, ["completed", true]);
+
+    return lodashSortBy(filtered, 'id');
   }
 
   getActiveTodos() {
     const activeTodos = lodashFilter(this.state.todos, ["completed", false]);
 
-    return lodashSortBy(activeTodos, ["starred"], ["desc"]);
+    return lodashSortBy(activeTodos, ["starred"], ["desc"]).reverse();
+  }
+
+  getActiveStarred() {
+    const activeTodos = this.getActiveTodos();
+
+    return lodashFilter(activeTodos, ['starred', 1]);
+  }
+
+  getUnstarred() {
+    return lodashFilter(this.state.todos, ['starred', 0]);
   }
 
   counterActiveStarred() {
-    const activeTodos = this.getActiveTodos();
-
-    return lodashFilter(activeTodos, ['starred', 1]).length;
+    return this.getActiveStarred().length;
   }
 
   sortStarredTodosFirst(todos) {
