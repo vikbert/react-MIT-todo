@@ -27,9 +27,11 @@ class App extends Component {
     });
   }
 
-  replaceTodoByIndex(index, todoObj) {
+  replaceTodo(oldTodo, newTodo) {
     const todos = this.state.todos;
-    todos[index] = todoObj;
+    const index = todos.indexOf(oldTodo);
+
+    todos[index] = newTodo;
 
     this.setState({
       todos: todos,
@@ -95,7 +97,7 @@ class App extends Component {
           <ul className="todo-list">
             {this.getFilteredTodos().map((todo, index) => {
               return (<TodoItem key={todo.id} index={index} todo={todo}
-                                replaceTodoByIndex={this.replaceTodoByIndex.bind(this)}/>);
+                                replaceTodo={this.replaceTodo.bind(this)}/>);
             })}
           </ul>
         </section>

@@ -11,19 +11,20 @@ class TodoItem extends Component {
     };
   }
 
+  cloneObject(original) {
+    return JSON.parse(JSON.stringify(original));
+  }
+
   onChange(event) {
     const isCompleted = event.target.checked;
     this.setState({
       completed: isCompleted,
     });
 
-    const oldTodo = this.props.todo;
-    this.props.replaceTodoByIndex(this.props.index, {
-      id: oldTodo.id,
-      title: oldTodo.title,
-      starred: oldTodo.starred,
-      completed: isCompleted,
-    });
+    const newTodo = this.cloneObject(this.props.todo);
+    newTodo.completed = isCompleted;
+
+    this.props.replaceTodo(this.props.todo, newTodo);
   }
 
   render() {
