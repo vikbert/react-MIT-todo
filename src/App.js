@@ -13,7 +13,7 @@ class App extends Component {
     super(props);
     this.state = {
       todos: window.todoStorage.fetch() || [],
-      visibility: FilterConfig.VISIBILITY_ALL,
+      visibility: FilterConfig.VISIBILITY_ALL || "all",
     };
   }
 
@@ -49,6 +49,17 @@ class App extends Component {
     });
   }
 
+  getFilteredTodos() {
+    switch (this.state.visibility) {
+      case FilterConfig.VISIBILITY_ACTIVE:
+        return this.getActiveTodos();
+      case FilterConfig.VISIBILITY_COMPLETED:
+        return this.getCompletedTodos();
+      default:
+        return this.getAllTodos();
+    }
+  }
+
   getAllTodos() {
     return lodashSortBy(this.state.todos, ['completed', 'starred'], ['asc', 'desc']);
   }
@@ -77,12 +88,12 @@ class App extends Component {
       <section className="todoapp">
         <header className="header">
           <h1>M I T Todo</h1>
-          <TodoForm addTodoHandler={this.addTodo.bind(this)}></TodoForm>
+          {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && <TodoForm addTodoHandler={this.addTodo.bind(this)}></TodoForm> }
         </header>
 
         <section className="main">
           <ul className="todo-list">
-            {this.state.todos.map((todo, index) => {
+            {this.getFilteredTodos().map((todo, index) => {
               return (<TodoItem key={todo.id} index={index} todo={todo}
                                 replaceTodoByIndex={this.replaceTodoByIndex.bind(this)}/>);
             })}
@@ -91,6 +102,7 @@ class App extends Component {
         <footer className="footer">
           <TodoCounter counterActive={this.getActiveTodos().length}></TodoCounter>
           <TodoControl visibility={this.state.visibility}
+                       counterCompleted={this.getCompletedTodos().length}
                        removeCompletedTodos={this.removeCompletedTodos.bind(this)}
                        updateVisibility={this.updateVisibility.bind(this)}>
           </TodoControl>

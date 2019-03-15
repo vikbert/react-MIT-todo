@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import FilterConfig from './FilterConfig';
 
 class TodoControl extends Component {
+  counterCompleted;
   constructor(props) {
     super(props);
     this.state = {};
@@ -21,6 +22,7 @@ class TodoControl extends Component {
 
   removeCompletedTodos() {
     this.props.removeCompletedTodos();
+    this.setVisibilityToAll();
   }
 
   render() {
@@ -33,9 +35,11 @@ class TodoControl extends Component {
           <li>
             <a href="#/all" onClick={this.setVisibilityToActive.bind(this)}>Active</a>
           </li>
+          { this.props.counterCompleted > 0 &&
           <li>
             <a href="#/all" onClick={this.setVisibilityToCompleted.bind(this)}>Completed</a>
           </li>
+          }
         </ul>
         <button className="clear-completed" onClick={this.removeCompletedTodos.bind(this)}>Clear completed</button>
       </div>
