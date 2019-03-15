@@ -1,33 +1,21 @@
-.App {
-  text-align: center;
+/*component todo_control*/
+.filters li a.selected {
+  border-color: rgba(175, 47, 47, 0.1);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+/*component todo_item*/
+.todo-list li.starred_todo {
+  font-weight: 400;
+  color: #522c2cf7;
+}
+.todo-list li .starred_completed {
+  fill: #d8d3d3;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/*avatar*/
+.avatar {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 48px;
 }
