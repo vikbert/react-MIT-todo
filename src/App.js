@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import lodashSortBy from "lodash/sortBy";
-import lodashFilter from "lodash/filter";
 import FilterConfig from "./components/FilterConfig";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
@@ -15,7 +13,6 @@ class App extends Component {
       todos: window.todoStorage.fetch() || [],
       visibility: FilterConfig.VISIBILITY_ALL || "all"
     };
-
     this.replaceTodo = this.replaceTodo.bind(this);
   }
 
@@ -65,32 +62,27 @@ class App extends Component {
   }
 
   getAllTodos() {
-    const activeStarred = this.getActiveStarred();
-    const unstarred = this.getUnstarred();
+    const active = this.getActiveTodos();
+    const completed = this.getCompletedTodos();
 
-    return activeStarred.concat(unstarred);
+    return active.concat(completed);
   }
 
   getCompletedTodos() {
-    const filtered = lodashFilter(this.state.todos, ["completed", true]);
-
-    return lodashSortBy(filtered, 'id');
+    const filtered = this.state.todos.filter(todo => todo.completed === true);
+    return filtered.sort((a, b) => a.id - b.id);
   }
 
   getActiveTodos() {
-    const activeTodos = lodashFilter(this.state.todos, ["completed", false]);
+    const activeTodos = this.state.todos.filter(todo => todo.completed === false);
 
-    return lodashSortBy(activeTodos, ["starred"], ["desc"]).reverse();
+    return activeTodos.sort((a, b) => b.starred - a.starred);
   }
 
   getActiveStarred() {
     const activeTodos = this.getActiveTodos();
 
-    return lodashFilter(activeTodos, ['starred', 1]);
-  }
-
-  getUnstarred() {
-    return lodashFilter(this.state.todos, ['starred', 0]);
+    return activeTodos.filter(todo => todo.starred === 1);
   }
 
   counterActiveStarred() {
@@ -98,7 +90,7 @@ class App extends Component {
   }
 
   sortStarredTodosFirst(todos) {
-    return lodashSortBy(todos, ["starred"], ["desc"]);
+    return todos.sort((a, b) => b.starred - a.starred);
   }
 
   render() {
