@@ -10,7 +10,7 @@ window.todoStorage = {
   fetch: function () {
     let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
 
-    localStorage.uid = todos.length;
+    this.uid = todos.length;
     todos.forEach(function (todo, index) {
       todo.id = index;
     });
