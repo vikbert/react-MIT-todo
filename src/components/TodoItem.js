@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import TodoStarIcon from './TodoStarIcon'
 
 class TodoItem extends Component {
-  index;
   todo;
   counterActiveStarred;
 
@@ -15,7 +14,7 @@ class TodoItem extends Component {
     this.replaceTodo = this.replaceTodo.bind(this);
   }
 
-  onChange(event) {
+  onChangeHandler(event) {
     const isCompleted = event.target.checked;
     this.setState({
       completed: isCompleted,
@@ -36,7 +35,7 @@ class TodoItem extends Component {
       <li className={this.state.completed ? 'todo completed' : 'todo'}>
         <div className="view">
           <input className="toggle" type="checkbox"
-                 onChange={this.onChange.bind(this)}
+                 onChange={this.onChangeHandler.bind(this)}
                  defaultChecked={this.state.completed}
           />
           <label>{this.props.todo.title}</label>

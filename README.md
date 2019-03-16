@@ -13,9 +13,11 @@ critical task that will create the most significant results.
 Every day, create a list of `two or three M.I.T.s`, and focus on getting them done as soon as 
 possible. Keep this list separate from your general to-do list. Read more about [MITs](https://personalmba.com/most-important-tasks/).  
 
-
+**Example Todos**
 ![homepage](./public/screenshot_todo.png)
 
+**Communication between react components**
+![homepage](./public/screenshot_react_delegation.png)
 
 
 
