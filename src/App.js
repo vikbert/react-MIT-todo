@@ -17,6 +17,7 @@ class App extends Component {
   }
 
   addTodo = (todoObj) => {
+    console.log('append new todo', todoObj);
     this.setState({
       todos: [todoObj, ...this.state.todos],
     });

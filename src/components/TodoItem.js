@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import TodoStarIcon from './TodoStarIcon'
+import TodoStarIcon from './TodoStarIcon';
 
 class TodoItem extends Component {
   todo;
@@ -10,32 +10,29 @@ class TodoItem extends Component {
     this.state = {
       completed: this.props.todo.completed,
     };
-
-    this.replaceTodo = this.replaceTodo.bind(this);
   }
 
-  onChangeHandler(event) {
+  handleChange = event => {
     const isCompleted = event.target.checked;
     this.setState({
       completed: isCompleted,
     });
 
-    const newTodo = JSON.parse(JSON.stringify(this.props.todo));
-    newTodo.completed = isCompleted;
+    const newTodo = {...this.props.todo, completed: isCompleted};
 
     this.props.replaceTodo(this.props.todo, newTodo);
-  }
+  };
 
-  replaceTodo(oldTodo, newTodo) {
+  replaceTodo = (oldTodo, newTodo) => {
     this.props.replaceTodo(oldTodo, newTodo);
-  }
+  };
 
   render() {
     return (
       <li className={this.state.completed ? 'todo completed' : 'todo'}>
         <div className="view">
           <input className="toggle" type="checkbox"
-                 onChange={this.onChangeHandler.bind(this)}
+                 onChange={this.handleChange}
                  defaultChecked={this.state.completed}
           />
           <label>{this.props.todo.title}</label>

@@ -1,37 +1,32 @@
 import React, {Component} from 'react';
 
 class TodoForm extends Component {
-  addTodoHandler;
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoInput: '',
-    };
-  }
+  state = {todoInput: ''};
 
-  handleChange(event) {
+  handleChange = event => {
     this.setState({todoInput: event.target.value});
-  }
+  };
 
-  handleKeyPress(event) {
+  handleKeyPress = event => {
     if (event.key === 'Enter') {
-      this.props.addTodoHandler({
+      const newTodo = {
         id: window.todoStorage.uid++,
         title: this.state.todoInput,
         starred: 0,
         completed: false,
-      });
+      };
 
+      this.props.addTodoHandler(newTodo);
       this.setState({todoInput: ''});
     }
-  }
+  };
 
   render() {
     return (
       <input className="new-todo" type="text" placeholder="What needs to be done?"
              value={this.state.todoInput}
-             onChange={this.handleChange.bind(this)}
-             onKeyPress={this.handleKeyPress.bind(this)}/>
+             onChange={this.handleChange}
+             onKeyPress={this.handleKeyPress}/>
     );
   }
 }
