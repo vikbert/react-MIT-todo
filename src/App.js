@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./App.css";
 import FilterConfig from "./components/FilterConfig";
 import TodoForm from "./components/TodoForm";
@@ -7,48 +7,43 @@ import TodoControl from "./components/TodoControl";
 import TodoCounter from "./components/TodoCounter";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todos: window.todoStorage.fetch() || [],
-      visibility: FilterConfig.VISIBILITY_ALL || "all"
-    };
-    this.replaceTodo = this.replaceTodo.bind(this);
-  }
+  state = {
+    todos: window.todoStorage.fetch() || [],
+    visibility: FilterConfig.VISIBILITY_ALL || "all",
+  };
 
   componentDidUpdate() {
     window.todoStorage.save(this.state.todos);
   }
 
-  addTodo(todoObj) {
+  addTodo = (todoObj) => {
     this.setState({
-      todos: [todoObj, ...this.state.todos]
+      todos: [todoObj, ...this.state.todos],
     });
-  }
+  };
 
-  replaceTodo(oldTodo, newTodo) {
-    const todos = this.state.todos;
-    const index = todos.indexOf(oldTodo);
+  replaceTodo = (oldTodo, newTodo) => {
+    const todos = [...this.state.todos];
 
-    todos[index] = newTodo;
+    todos[todos.indexOf(oldTodo)] = newTodo;
 
     this.setState({
-      todos: todos
+      todos: todos,
     });
-  }
+  };
 
-  removeCompletedTodos() {
+  removeCompletedTodos = () => {
     const onlyActiveTodos = this.sortStarredTodosFirst(this.getActiveTodos());
     this.setState({
-      todos: onlyActiveTodos
+      todos: onlyActiveTodos,
     });
-  }
+  };
 
-  updateVisibility(newVisibility) {
+  updateVisibility = (newVisibility) => {
     this.setState({
-      visibility: newVisibility
+      visibility: newVisibility,
     });
-  }
+  };
 
   getFilteredTodos() {
     switch (this.state.visibility) {
@@ -85,9 +80,9 @@ class App extends Component {
     return activeTodos.filter(todo => todo.starred === 1);
   }
 
-  counterActiveStarred() {
+  counterActiveStarred = () => {
     return this.getActiveStarred().length;
-  }
+  };
 
   sortStarredTodosFirst(todos) {
     return todos.sort((a, b) => b.starred - a.starred);
@@ -111,7 +106,7 @@ class App extends Component {
           <header className="header">
             <h1>M I T Todo</h1>
             {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
-              <TodoForm addTodoHandler={this.addTodo.bind(this)} />
+              <TodoForm addTodoHandler={this.addTodo}/>
             )}
           </header>
 
@@ -123,7 +118,7 @@ class App extends Component {
                     key={todo.id}
                     index={index}
                     todo={todo}
-                    counterActiveStarred={this.counterActiveStarred.bind(this)}
+                    counterActiveStarred={this.counterActiveStarred}
                     replaceTodo={this.replaceTodo}
                   />
                 );
@@ -131,12 +126,12 @@ class App extends Component {
             </ul>
           </section>
           <footer className="footer">
-            <TodoCounter counterActive={this.getActiveTodos().length} />
+            <TodoCounter counterActive={this.getActiveTodos().length}/>
             <TodoControl
               visibility={this.state.visibility}
               counterCompleted={this.getCompletedTodos().length}
-              removeCompletedTodos={this.removeCompletedTodos.bind(this)}
-              updateVisibility={this.updateVisibility.bind(this)}
+              removeCompletedTodos={this.removeCompletedTodos}
+              updateVisibility={this.updateVisibility}
             />
           </footer>
         </section>
