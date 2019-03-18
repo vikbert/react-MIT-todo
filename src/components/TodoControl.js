@@ -3,32 +3,33 @@ import FilterConfig from './FilterConfig';
 
 class TodoControl extends Component {
   counterCompleted;
+
   constructor(props) {
     super(props);
     this.state = {
-      visibility: props.visibility || FilterConfig.VISIBILITY_ALL
+      visibility: props.visibility || FilterConfig.VISIBILITY_ALL,
     };
   }
 
-  setVisibilityToAll() {
+  setVisibilityToAll = () => {
     this.setState({visibility: FilterConfig.VISIBILITY_ALL});
     this.props.updateVisibility(FilterConfig.VISIBILITY_ALL);
-  }
+  };
 
-  setVisibilityToActive() {
+  setVisibilityToActive = () => {
     this.setState({visibility: FilterConfig.VISIBILITY_ACTIVE});
     this.props.updateVisibility(FilterConfig.VISIBILITY_ACTIVE);
-  }
+  };
 
-  setVisibilityToCompleted() {
+  setVisibilityToCompleted = () => {
     this.setState({visibility: FilterConfig.VISIBILITY_COMPLETED});
     this.props.updateVisibility(FilterConfig.VISIBILITY_COMPLETED);
-  }
+  };
 
-  removeCompletedTodos() {
+  removeCompletedTodos = () => {
     this.props.removeCompletedTodos();
     this.setVisibilityToAll();
-  }
+  };
 
   render() {
     return (
@@ -37,22 +38,22 @@ class TodoControl extends Component {
           <li>
             <a href="#/all"
                className={this.state.visibility === FilterConfig.VISIBILITY_ALL ? "selected" : ""}
-               onClick={this.setVisibilityToAll.bind(this)}>All</a>
+               onClick={this.setVisibilityToAll}>All</a>
           </li>
           <li>
             <a href="#/all"
                className={this.state.visibility === FilterConfig.VISIBILITY_ACTIVE ? "selected" : ""}
-               onClick={this.setVisibilityToActive.bind(this)}>Active</a>
+               onClick={this.setVisibilityToActive}>Active</a>
           </li>
-          { this.props.counterCompleted > 0 &&
+          {this.props.counterCompleted > 0 &&
           <li>
             <a href="#/all"
                className={this.state.visibility === FilterConfig.VISIBILITY_COMPLETED ? "selected" : ""}
-               onClick={this.setVisibilityToCompleted.bind(this)}>Completed</a>
+               onClick={this.setVisibilityToCompleted}>Completed</a>
           </li>
           }
         </ul>
-        <button className="clear-completed" onClick={this.removeCompletedTodos.bind(this)}>Clear completed</button>
+        <button className="clear-completed" onClick={this.removeCompletedTodos}>Clear completed</button>
       </div>
     );
   };
