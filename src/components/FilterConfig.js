@@ -1,6 +1,3 @@
-const FilterConfig = {
-  VISIBILITY_ALL: "all",
-  VISIBILITY_ACTIVE: "active",
-  VISIBILITY_COMPLETED: "completed",
-};
-export default FilterConfig;
+export const VISIBILITY_ALL = "all";
+export const VISIBILITY_ACTIVE = "active";
+export const VISIBILITY_COMPLETED = "completed";
