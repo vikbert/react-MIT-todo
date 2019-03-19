@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import "./App.css";
-import FilterConfig from "./components/FilterConfig";
+import * as FilterConfig from "./components/FilterConfig";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 import TodoControl from "./components/TodoControl";
-import TodoCounter from "./components/TodoCounter";
 
 class App extends Component {
   state = {
@@ -69,11 +68,11 @@ class App extends Component {
     return filtered.sort((a, b) => a.id - b.id);
   }
 
-  getActiveTodos() {
+  getActiveTodos = () => {
     const activeTodos = this.state.todos.filter(todo => todo.completed === false);
 
     return activeTodos.sort((a, b) => b.starred - a.starred);
-  }
+  };
 
   getActiveStarred() {
     const activeTodos = this.getActiveTodos();
@@ -91,21 +90,19 @@ class App extends Component {
 
   render() {
     return (
-      <div id="todo-demo">
-        <a
-          href="https://github.com/vikbert/react-MIT-todo"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div>
+        <a href="https://github.com/vikbert/react-MIT-todo"
+           target="_blank"
+           rel="noopener noreferrer"
         >
-          <img
-            className="avatar"
-            src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
-            alt="avatar"
+          <img className="avatar"
+               src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
+               alt="avatar"
           />
         </a>
         <section className="todoapp">
           <header className="header">
-            <h1>M I T Todo</h1>
+            <h1>{'M I T Todo'}</h1>
             {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
               <TodoForm addTodoHandler={this.addTodo}/>
             )}
@@ -127,16 +124,16 @@ class App extends Component {
             </ul>
           </section>
           <footer className="footer">
-            <TodoCounter counterActive={this.getActiveTodos().length}/>
             <TodoControl
               visibility={this.state.visibility}
               counterCompleted={this.getCompletedTodos().length}
               removeCompletedTodos={this.removeCompletedTodos}
               updateVisibility={this.updateVisibility}
+              getActiveTodos={this.getActiveTodos}
             />
           </footer>
         </section>
-        <span>CSS template powered by todomvc.com®</span>
+        <span>{'CSS template powered by todomvc.com®'}</span>
       </div>
     );
   }

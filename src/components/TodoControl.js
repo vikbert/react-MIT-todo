@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import FilterConfig from './FilterConfig';
+import * as FilterConfig from './FilterConfig';
 
 class TodoControl extends Component {
   counterCompleted;
@@ -34,6 +34,9 @@ class TodoControl extends Component {
   render() {
     return (
       <div>
+        <span className="todo-count">
+          <strong>{this.props.getActiveTodos().length}</strong> items left
+        </span>
         <ul className="filters">
           <li>
             <a href="#/all"
