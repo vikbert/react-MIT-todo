@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import TodoStarIcon from './TodoStarIcon';
+import {connect} from 'react-redux'
+import {updateTodo} from "../redux/actions/todoActions";
 
 class TodoItem extends Component {
   state = {
@@ -14,11 +16,7 @@ class TodoItem extends Component {
 
     const newTodo = {...this.props.todo, completed: isCompleted};
 
-    this.props.replaceTodo(this.props.todo, newTodo);
-  };
-
-  replaceTodo = (oldTodo, newTodo) => {
-    this.props.replaceTodo(oldTodo, newTodo);
+    this.props.updateTodo(newTodo, this.props.todo);
   };
 
   render() {
@@ -40,4 +38,4 @@ class TodoItem extends Component {
   }
 }
 
-export default TodoItem;
+export default connect(null, {updateTodo})(TodoItem);
