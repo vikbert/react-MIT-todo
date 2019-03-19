@@ -3,7 +3,7 @@ import configureEnhancer from '../containers/configureEnhancer'
 import rootReducer from '../reducers/rootReducer'
 
 export default function configureStore() {
-  const initialState = {};
+  const initialState = { visibility: 'all'};
   const enhancer = configureEnhancer();
 
   return createStore(rootReducer, initialState, enhancer);

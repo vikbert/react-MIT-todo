@@ -5,7 +5,7 @@ export const fetchTodos = () => dispatch => {
 
   dispatch({
     type: types.FETCH_TODOS,
-    payload: todos,
+    todos: todos,
   });
 };
 

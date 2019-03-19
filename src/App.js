@@ -1,29 +1,35 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import "./App.css";
 import * as FilterConfig from "./components/FilterConfig";
 import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 import TodoControl from "./components/TodoControl";
+import {fetchTodos} from "./redux/actions/todoActions";
 
 class App extends Component {
+  componentWillMount() {
+    this.props.fetchTodos();
+  }
+
   state = {
-    todos: window.todoStorage.fetch() || [],
+    todos: [],
     visibility: FilterConfig.VISIBILITY_ALL || "all",
   };
 
   componentDidUpdate() {
-    window.todoStorage.save(this.state.todos);
+    window.todoStorage.save(this.props.todos);
   }
 
   addTodo = (todoObj) => {
-    console.log('append new todo', todoObj);
     this.setState({
-      todos: [todoObj, ...this.state.todos],
+      todos: [todoObj, ...this.props.todos],
     });
   };
 
   replaceTodo = (oldTodo, newTodo) => {
-    const todos = [...this.state.todos];
+    const todos = [...this.props.todos];
 
     todos[todos.indexOf(oldTodo)] = newTodo;
 
@@ -64,12 +70,12 @@ class App extends Component {
   }
 
   getCompletedTodos() {
-    const filtered = this.state.todos.filter(todo => todo.completed === true);
+    const filtered = this.props.todos.filter(todo => todo.completed === true);
     return filtered.sort((a, b) => a.id - b.id);
   }
 
   getActiveTodos = () => {
-    const activeTodos = this.state.todos.filter(todo => todo.completed === false);
+    const activeTodos = this.props.todos.filter(todo => todo.completed === false);
 
     return activeTodos.sort((a, b) => b.starred - a.starred);
   };
@@ -139,4 +145,13 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  todos: PropTypes.array.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  todos: state.todoPage.todos,
+});
+
+export default connect(mapStateToProps, {fetchTodos})(App);

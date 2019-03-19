@@ -1,14 +1,13 @@
 import * as types from '../actions/types';
 
 const initialState = {
-  items: [],
-  item: {},
+  todos: [],
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case types.FETCH_TODOS:
-      return {...state, items: action.payload};
+      return {...state, todos: action.todos};
     default:
       return state;
   }
