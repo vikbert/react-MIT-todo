@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import {createTodo} from "../redux/actions/todoActions";
 
 class TodoForm extends Component {
@@ -11,6 +11,11 @@ class TodoForm extends Component {
 
   handleKeyPress = event => {
     if (event.key === 'Enter') {
+      const text = this.state.todoInput.trim();
+      if (!text) {
+        return;
+      }
+
       const newTodo = {
         id: window.todoStorage.uid++,
         title: this.state.todoInput,
