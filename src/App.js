@@ -15,7 +15,6 @@ class App extends Component {
 
   state = {
     todos: [],
-    visibility: FilterConfig.VISIBILITY_ALL || "all",
   };
 
   componentDidUpdate() {
@@ -45,14 +44,8 @@ class App extends Component {
     });
   };
 
-  updateVisibility = (newVisibility) => {
-    this.setState({
-      visibility: newVisibility,
-    });
-  };
-
   getFilteredTodos() {
-    switch (this.state.visibility) {
+    switch (this.props.visibility) {
       case FilterConfig.VISIBILITY_ACTIVE:
         return this.getActiveTodos();
       case FilterConfig.VISIBILITY_COMPLETED:
@@ -109,7 +102,7 @@ class App extends Component {
         <section className="todoapp">
           <header className="header">
             <h1>{'M I T Todo'}</h1>
-            {this.state.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
+            {this.props.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
               <TodoForm addTodoHandler={this.addTodo}/>
             )}
           </header>
@@ -131,10 +124,8 @@ class App extends Component {
           </section>
           <footer className="footer">
             <TodoControl
-              visibility={this.state.visibility}
               counterCompleted={this.getCompletedTodos().length}
               removeCompletedTodos={this.removeCompletedTodos}
-              updateVisibility={this.updateVisibility}
               getActiveTodos={this.getActiveTodos}
             />
           </footer>
@@ -151,7 +142,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  todos: state.todoPage.todos,
+  todos: state.todoApp.todos,
+  visibility: state.todoApp.visibility,
 });
 
 export default connect(mapStateToProps, {fetchTodos})(App);

@@ -1,23 +1,19 @@
 import React, {Component} from "react";
 import * as FilterConfig from './FilterConfig';
+import {connect} from 'react-redux';
+import {updateVisibility} from "../redux/actions/todoActions";
+import PropTypes from 'prop-types';
 
 class TodoControl extends Component {
-  state = {
-    visibility: this.props.visibility || FilterConfig.VISIBILITY_ALL,
-  };
-
   setVisibilityToAll = () => {
-    this.setState({visibility: FilterConfig.VISIBILITY_ALL});
     this.props.updateVisibility(FilterConfig.VISIBILITY_ALL);
   };
 
   setVisibilityToActive = () => {
-    this.setState({visibility: FilterConfig.VISIBILITY_ACTIVE});
     this.props.updateVisibility(FilterConfig.VISIBILITY_ACTIVE);
   };
 
   setVisibilityToCompleted = () => {
-    this.setState({visibility: FilterConfig.VISIBILITY_COMPLETED});
     this.props.updateVisibility(FilterConfig.VISIBILITY_COMPLETED);
   };
 
@@ -35,18 +31,18 @@ class TodoControl extends Component {
         <ul className="filters">
           <li>
             <a href="#/all"
-               className={this.state.visibility === FilterConfig.VISIBILITY_ALL ? "selected" : ""}
+               className={this.props.visibility === FilterConfig.VISIBILITY_ALL ? "selected" : ""}
                onClick={this.setVisibilityToAll}>All</a>
           </li>
           <li>
             <a href="#/all"
-               className={this.state.visibility === FilterConfig.VISIBILITY_ACTIVE ? "selected" : ""}
+               className={this.props.visibility === FilterConfig.VISIBILITY_ACTIVE ? "selected" : ""}
                onClick={this.setVisibilityToActive}>Active</a>
           </li>
           {this.props.counterCompleted > 0 &&
           <li>
             <a href="#/all"
-               className={this.state.visibility === FilterConfig.VISIBILITY_COMPLETED ? "selected" : ""}
+               className={this.props.visibility === FilterConfig.VISIBILITY_COMPLETED ? "selected" : ""}
                onClick={this.setVisibilityToCompleted}>Completed</a>
           </li>
           }
@@ -57,4 +53,13 @@ class TodoControl extends Component {
   };
 }
 
-export default TodoControl;
+TodoControl.propTypes = {
+  visibility: PropTypes.string.isRequired,
+  updateVisibility: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  visibility: state.todoApp.visibility,
+});
+
+export default connect(mapStateToProps, {updateVisibility})(TodoControl);

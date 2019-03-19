@@ -9,4 +9,11 @@ export const fetchTodos = () => dispatch => {
   });
 };
 
+export const updateVisibility = (visibility) => dispatch => {
+  dispatch({
+    type: types.UPDATE_VISIBILITY,
+    visibility,
+  });
+};
+
 

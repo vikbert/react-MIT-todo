@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux'
 import todoReducer from './todoReducer'
 
-const rootReducer = combineReducers({
-  todoPage: todoReducer,
+const index = combineReducers({
+  todoApp: todoReducer,
   // another reducer
 });
 
-export default rootReducer;
+export default index;
