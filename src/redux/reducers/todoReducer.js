@@ -11,10 +11,8 @@ const removeCompletedTodos = (state) => {
 
 const updateTodo = (state, action) => {
   const todos = [...state.todos];
-
   todos[todos.indexOf(action.oldTodo)] = action.newTodo;
 
-  console.log(todos)
   return todos;
 };
 

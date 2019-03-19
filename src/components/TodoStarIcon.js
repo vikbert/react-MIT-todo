@@ -1,16 +1,18 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {updateTodo} from "../redux/actions/todoActions";
 
 class TodoStarIcon extends Component {
   state = {
     iconStarred: this.props.todo.starred,
   };
 
-
   onClickHandler = () => {
     const original = {...this.props.todo};
 
     this.props.todo.starred = +!original.starred;
-    this.props.replaceTodo(original, this.props.todo);
+    this.props.updateTodo(this.props.todo, original);
 
     this.setState({
       iconStarred: this.props.todo.starred,
@@ -33,4 +35,8 @@ class TodoStarIcon extends Component {
   }
 }
 
-export default TodoStarIcon;
+TodoStarIcon.propTypes = {
+  updateTodo: PropTypes.func.isRequired,
+};
+
+export default connect(null, {updateTodo})(TodoStarIcon);

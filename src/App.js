@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
 import "./App.css";
 import * as FilterConfig from "./components/FilterConfig";
 import TodoForm from "./components/TodoForm";
@@ -12,37 +12,6 @@ class App extends Component {
   componentWillMount() {
     this.props.fetchTodos();
   }
-
-  state = {
-    todos: [],
-  };
-
-  componentDidUpdate() {
-    window.todoStorage.save(this.props.todos);
-  }
-
-  addTodo = (todoObj) => {
-    this.setState({
-      todos: [todoObj, ...this.props.todos],
-    });
-  };
-
-  replaceTodo = (oldTodo, newTodo) => {
-    const todos = [...this.props.todos];
-
-    todos[todos.indexOf(oldTodo)] = newTodo;
-
-    this.setState({
-      todos: todos,
-    });
-  };
-
-  removeCompletedTodos = () => {
-    const onlyActiveTodos = this.sortStarredTodosFirst(this.getActiveTodos());
-    this.setState({
-      todos: onlyActiveTodos,
-    });
-  };
 
   getFilteredTodos() {
     switch (this.props.visibility) {
@@ -68,7 +37,9 @@ class App extends Component {
   }
 
   getActiveTodos = () => {
-    const activeTodos = this.props.todos.filter(todo => todo.completed === false);
+    const activeTodos = this.props.todos.filter(
+      todo => todo.completed === false,
+    );
 
     return activeTodos.sort((a, b) => b.starred - a.starred);
   };
@@ -90,47 +61,44 @@ class App extends Component {
   render() {
     return (
       <div>
-        <a href="https://github.com/vikbert/react-MIT-todo"
-           target="_blank"
-           rel="noopener noreferrer"
-        >
-          <img className="avatar"
-               src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
-               alt="avatar"
+        <a href="https://github.com/vikbert/react-MIT-todo" target="_blank" rel="noopener noreferrer">
+          <img
+            className="avatar"
+            src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
+            alt="avatar"
           />
         </a>
         <section className="todoapp">
           <header className="header">
-            <h1>{'M I T Todo'}</h1>
+            <h1>{"M I T Todo"}</h1>
             {this.props.visibility !== FilterConfig.VISIBILITY_COMPLETED && (
-              <TodoForm addTodoHandler={this.addTodo}/>
+              <TodoForm/>
             )}
           </header>
 
           <section className="main">
             <ul className="todo-list">
               {this.getFilteredTodos().map((todo, index) => {
-                return (
-                  <TodoItem
-                    key={todo.id}
-                    index={index}
-                    todo={todo}
-                    counterActiveStarred={this.counterActiveStarred}
-                    replaceTodo={this.replaceTodo}
-                  />
-                );
-              })}
+                  return (
+                    <TodoItem
+                      key={todo.id}
+                      index={index}
+                      todo={todo}
+                      counterActiveStarred={this.counterActiveStarred}
+                    />
+                  );
+                },
+              )}
             </ul>
           </section>
           <footer className="footer">
             <TodoControl
               counterCompleted={this.getCompletedTodos().length}
-              removeCompletedTodos={this.removeCompletedTodos}
               getActiveTodos={this.getActiveTodos}
             />
           </footer>
         </section>
-        <span>{'CSS template powered by todomvc.com®'}</span>
+        <span>{"CSS template powered by todomvc.com®"}</span>
       </div>
     );
   }
@@ -138,6 +106,7 @@ class App extends Component {
 
 App.propTypes = {
   todos: PropTypes.array.isRequired,
+  visibility: PropTypes.string.isRequired,
   fetchTodos: PropTypes.func.isRequired,
 };
 

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import TodoStarIcon from './TodoStarIcon';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {updateTodo} from "../redux/actions/todoActions";
 
 class TodoItem extends Component {
@@ -28,14 +29,16 @@ class TodoItem extends Component {
                  defaultChecked={this.state.completed}
           />
           <label>{this.props.todo.title}</label>
-          <TodoStarIcon todo={this.props.todo}
-                        replaceTodo={this.replaceTodo}
-          />
+          <TodoStarIcon todo={this.props.todo}/>
         </div>
         <input className="edit" type="text"/>
       </li>
     );
   }
 }
+
+TodoItem.propTypes = {
+  updateTodo: PropTypes.func.isRequired,
+};
 
 export default connect(null, {updateTodo})(TodoItem);

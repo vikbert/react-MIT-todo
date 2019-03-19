@@ -10,17 +10,29 @@ const STORAGE_KEY = 'REACT_APP_TODO_LIST';
 window.todoStorage = {
   uid: 0,
   fetch: function () {
-    let todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    try {
+      const serializedState = localStorage.getItem(STORAGE_KEY);
+      if (serializedState === null) {
+        return undefined;
+      }
+      let todos = JSON.parse(serializedState);
+      this.uid = todos.length;
+      todos.forEach(function (todo, index) {
+        todo.id = index;
+      });
 
-    this.uid = todos.length;
-    todos.forEach(function (todo, index) {
-      todo.id = index;
-    });
-
-    return todos;
+      return todos;
+    } catch (err) {
+      return undefined;
+    }
   },
   save: function (todos) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+    try {
+      const serializedTodos = JSON.stringify(todos);
+      localStorage.setItem(STORAGE_KEY, serializedTodos);
+    } catch {
+      // ignore write errors
+    }
   },
 };
 
