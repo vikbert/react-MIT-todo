@@ -2,14 +2,9 @@ import React, {Component} from "react";
 import * as FilterConfig from './FilterConfig';
 
 class TodoControl extends Component {
-  counterCompleted;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      visibility: props.visibility || FilterConfig.VISIBILITY_ALL,
-    };
-  }
+  state = {
+    visibility: this.props.visibility || FilterConfig.VISIBILITY_ALL,
+  };
 
   setVisibilityToAll = () => {
     this.setState({visibility: FilterConfig.VISIBILITY_ALL});

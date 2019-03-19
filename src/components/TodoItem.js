@@ -2,15 +2,9 @@ import React, {Component} from "react";
 import TodoStarIcon from './TodoStarIcon';
 
 class TodoItem extends Component {
-  todo;
-  counterActiveStarred;
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      completed: this.props.todo.completed,
-    };
-  }
+  state = {
+    completed: this.props.todo.completed,
+  };
 
   handleChange = event => {
     const isCompleted = event.target.checked;
