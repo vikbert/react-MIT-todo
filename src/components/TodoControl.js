@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import * as FilterConfig from './FilterConfig';
 import {connect} from 'react-redux';
-import {updateVisibility} from "../redux/actions/todoActions";
+import {updateVisibility, removeCompletedTodos} from "../redux/actions/todoActions";
 import PropTypes from 'prop-types';
 
 class TodoControl extends Component {
@@ -56,10 +56,11 @@ class TodoControl extends Component {
 TodoControl.propTypes = {
   visibility: PropTypes.string.isRequired,
   updateVisibility: PropTypes.func.isRequired,
+  removeCompletedTodos: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   visibility: state.todoApp.visibility,
 });
 
-export default connect(mapStateToProps, {updateVisibility})(TodoControl);
+export default connect(mapStateToProps, {updateVisibility, removeCompletedTodos})(TodoControl);
