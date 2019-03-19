@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {createTodo} from "../redux/actions/todoActions";
 
 class TodoForm extends Component {
   state = {todoInput: ''};
@@ -16,7 +18,7 @@ class TodoForm extends Component {
         completed: false,
       };
 
-      this.props.addTodoHandler(newTodo);
+      this.props.createTodo(newTodo);
       this.setState({todoInput: ''});
     }
   };
@@ -31,4 +33,4 @@ class TodoForm extends Component {
   }
 }
 
-export default TodoForm;
+export default connect(null, {createTodo})(TodoForm);
