@@ -1,25 +1,17 @@
 import React, {Component} from "react";
-import * as FilterConfig from './FilterConfig';
+import * as Filter from './FilterConfig';
 import {connect} from 'react-redux';
-import {updateVisibility, removeCompletedTodos} from "../redux/actions/todoActions";
+import {removeCompletedTodos, updateVisibility} from "../redux/actions/todoActions";
 import PropTypes from 'prop-types';
 
 class TodoControl extends Component {
-  setVisibilityToAll = () => {
-    this.props.updateVisibility(FilterConfig.VISIBILITY_ALL);
-  };
-
-  setVisibilityToActive = () => {
-    this.props.updateVisibility(FilterConfig.VISIBILITY_ACTIVE);
-  };
-
-  setVisibilityToCompleted = () => {
-    this.props.updateVisibility(FilterConfig.VISIBILITY_COMPLETED);
+  handleClick = event => {
+    this.props.updateVisibility(event.target.getAttribute('data-visibility'));
   };
 
   removeCompletedTodos = () => {
     this.props.removeCompletedTodos();
-    this.setVisibilityToAll();
+    this.props.updateVisibility('all');
   };
 
   render() {
@@ -31,19 +23,24 @@ class TodoControl extends Component {
         <ul className="filters">
           <li>
             <a href="#/all"
-               className={this.props.visibility === FilterConfig.VISIBILITY_ALL ? "selected" : ""}
-               onClick={this.setVisibilityToAll}>All</a>
-          </li>
-          <li>
-            <a href="#/all"
-               className={this.props.visibility === FilterConfig.VISIBILITY_ACTIVE ? "selected" : ""}
-               onClick={this.setVisibilityToActive}>Active</a>
+               data-visibility={Filter.VISIBILITY_ALL}
+               className={this.props.visibility === Filter.VISIBILITY_ALL ? "selected" : ""}
+               onClick={this.handleClick}>All</a>
           </li>
           {this.props.counterCompleted > 0 &&
           <li>
             <a href="#/all"
-               className={this.props.visibility === FilterConfig.VISIBILITY_COMPLETED ? "selected" : ""}
-               onClick={this.setVisibilityToCompleted}>Completed</a>
+               data-visibility={Filter.VISIBILITY_ACTIVE}
+               className={this.props.visibility === Filter.VISIBILITY_ACTIVE ? "selected" : ""}
+               onClick={this.handleClick}>Active</a>
+          </li>
+          }
+          {this.props.counterCompleted > 0 &&
+          <li>
+            <a href="#/all"
+               data-visibility={Filter.VISIBILITY_COMPLETED}
+               className={this.props.visibility === Filter.VISIBILITY_COMPLETED ? "selected" : ""}
+               onClick={this.handleClick}>Completed</a>
           </li>
           }
         </ul>
