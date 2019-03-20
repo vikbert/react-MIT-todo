@@ -41,7 +41,7 @@ class TodoForm extends Component {
 }
 
 TodoForm.propTypes = {
-    inputText: PropTypes.string.isRequired,
+    inputText: PropTypes.string,
 };
 
 

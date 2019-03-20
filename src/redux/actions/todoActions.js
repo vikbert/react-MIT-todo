@@ -21,6 +21,13 @@ export const updateTodo = (newTodo, oldTodo) => dispatch => {
   });
 };
 
+export const deleteTodo = (id) => dispatch => {
+  dispatch({
+    type: types.DELETE_TODO,
+    id: id
+  });
+};
+
 export const removeCompletedTodos = () => dispatch => {
   dispatch({
     type: types.REMOVE_COMPLETED_TODOS,
