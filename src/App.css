@@ -11,11 +11,3 @@
 .todo-list li .starred_completed {
   fill: #d8d3d3;
 }
-
-/*avatar*/
-.avatar {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 48px;
-}

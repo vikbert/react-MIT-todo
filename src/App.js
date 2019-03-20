@@ -7,6 +7,7 @@ import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 import TodoControl from "./components/TodoControl";
 import { fetchTodos } from "./redux/actions/todoActions";
+import GitHub from './components/Github';
 
 class App extends Component {
   componentWillMount() {
@@ -61,17 +62,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <a
-          href="https://github.com/vikbert/react-MIT-todo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            className="avatar"
-            src="https://github.githubassets.com/images/modules/site/logos/desktop-logo.png"
-            alt="avatar"
-          />
-        </a>
+        <GitHub></GitHub>
         <section className="todoapp">
           <header className="header">
             <h1>{"M I T Todo"}</h1>
